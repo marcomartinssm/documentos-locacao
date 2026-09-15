@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha de Desocupação – Projetar Imóveis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --vinho: #A0496A;
+      --vinho-dark: #7a3250;
+      --vinho-light: #c4768f;
+      --vinho-pale: #f9eef2;
+      --gold: #c9a96e;
+      --text: #1e1e1e;
+      --text-muted: #6b6b6b;
+      --border: #ddd0d5;
+      --bg: #faf8f8;
+      --white: #ffffff;
+      --radius: 10px;
+      --shadow: 0 2px 16px rgba(160,73,106,0.10);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px 16px 60px;
+    }
+
+    .wrapper {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--vinho);
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 32px 36px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      right: -30px; top: -30px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .header-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .logo-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: #fff;
+      letter-spacing: 0.5px;
+      line-height: 1;
+    }
+    .logo-name span {
+      color: var(--gold);
+    }
+    .logo-sub {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 11px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+    .header-title {
+      margin-left: auto;
+      text-align: right;
+    }
+    .header-title h1 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .header-title p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.65);
+      margin-top: 4px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    /* DIVIDER */
+    .accent-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--vinho-light));
+    }
+
+    /* CARD */
+    .card {
+      background: var(--white);
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 36px 40px;
+    }
+
+    /* SECTION */
+    .section {
+      margin-bottom: 32px;
+    }
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--vinho);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* GRID */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .col-span-2 { grid-column: span 2; }
+
+    /* FIELD */
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      padding: 10px 13px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13.5px;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--vinho);
+      box-shadow: 0 0 0 3px rgba(160,73,106,0.12);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+    input[type="date"] { color: var(--text); }
+
+    /* RADIO / CHECKBOX GROUP */
+    .radio-group, .check-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .radio-label, .check-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      text-transform: none;
+      letter-spacing: 0;
+      padding: 8px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      transition: all .2s;
+      user-select: none;
+    }
+    .radio-label:hover, .check-label:hover {
+      border-color: var(--vinho-light);
+      background: var(--vinho-pale);
+    }
+    .radio-label input, .check-label input {
+      display: none;
+    }
+    .radio-label.selected, .check-label.selected {
+      border-color: var(--vinho);
+      background: var(--vinho-pale);
+      color: var(--vinho-dark);
+    }
+    .radio-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: #fff;
+      flex-shrink: 0;
+      transition: all .2s;
+    }
+    .radio-label.selected .radio-dot {
+      background: var(--vinho);
+      border-color: var(--vinho);
+    }
+
+    /* VALOR */
+    .input-prefix {
+      position: relative;
+    }
+    .input-prefix span {
+      position: absolute;
+      left: 13px; top: 50%;
+      transform: translateY(-50%);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--vinho);
+      pointer-events: none;
+    }
+    .input-prefix input {
+      padding-left: 36px;
+    }
+
+    /* SUBMIT */
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-secondary {
+      padding: 12px 26px;
+      border-radius: 7px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-secondary:hover { border-color: var(--vinho); color: var(--vinho); }
+
+    .btn-primary {
+      padding: 12px 32px;
+      border-radius: 7px;
+      border: none;
+      background: var(--vinho);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--vinho-dark); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    /* PRINT */
+    @media print {
+      body { background: white; padding: 0; }
+      .actions { display: none; }
+      .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 560px) {
+      .card { padding: 24px 18px 32px; }
+      .header { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .header-title { margin-left: 0; text-align: left; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .col-span-2 { grid-column: span 1; }
+    }
+
+    /* SUCCESS */
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 32px; right: 32px;
+      background: #2e7d52;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 999;
+      animation: slideIn .3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-name">PROJETAR <span>IMÓVEIS</span></div>
+      <div class="logo-sub">CRECI 2709J</div>
+    </div>
+    <div class="header-title">
+      <h1>Ficha de Desocupação</h1>
+      <p>Controle interno – Uso exclusivo da equipe</p>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+
+  <div class="card">
+    <form id="fichaForm" novalidate>
+
+      <!-- DADOS DO CONTRATO -->
+      <div class="section">
+        <div class="section-title">Dados do Contrato</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Contrato</label>
+            <input type="text" name="contrato" placeholder="Nº do contrato" />
+          </div>
+          <div class="field">
+            <label>Data da entrega das chaves</label>
+            <input type="date" name="data_entrega_chaves" />
+          </div>
+          <div class="field col-span-2">
+            <label>Nome do locatário</label>
+            <input type="text" name="nome_locatario" placeholder="Nome completo do locatário" />
+          </div>
+        </div>
+      </div>
+
+      <!-- AVISO E MOTIVO -->
+      <div class="section">
+        <div class="section-title">Aviso e Motivo</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Aviso de desocupação</label>
+            <div class="radio-group" data-name="aviso_desocupacao">
+              <label class="radio-label">
+                <input type="radio" name="aviso_desocupacao" value="Sim" />
+                <span class="radio-dot"></span> Sim
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="aviso_desocupacao" value="Não" />
+                <span class="radio-dot"></span> Não
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Multa contratual</label>
+            <div class="radio-group" data-name="multa_contratual">
+              <label class="radio-label">
+                <input type="radio" name="multa_contratual" value="Sim" />
+                <span class="radio-dot"></span> Sim
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="multa_contratual" value="Não" />
+                <span class="radio-dot"></span> Não
+              </label>
+            </div>
+          </div>
+          <div class="field col-span-2">
+            <label>Motivo da desocupação</label>
+            <textarea name="motivo_desocupacao" placeholder="Descreva o motivo..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIPO DE FIANÇA -->
+      <div class="section">
+        <div class="section-title">Tipo de Fiança</div>
+        <div class="field">
+          <label>Selecione o tipo</label>
+          <div class="radio-group" data-name="tipo_fianca">
+            <label class="radio-label">
+              <input type="radio" name="tipo_fianca" value="Credpago" />
+              <span class="radio-dot"></span> Credpago
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="tipo_fianca" value="Caução" />
+              <span class="radio-dot"></span> Caução
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="tipo_fianca" value="Fiador" />
+              <span class="radio-dot"></span> Fiador
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- UTILIDADES -->
+      <div class="section">
+        <div class="section-title">Utilidades e Documentação</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Matrícula Água</label>
+            <input type="text" name="matricula_agua" placeholder="Nº da matrícula" />
+          </div>
+          <div class="field">
+            <label>Unidade Consumidora</label>
+            <input type="text" name="unidade_consumidora" placeholder="Nº da UC" />
+          </div>
+          <div class="field">
+            <label>Administradora de condomínio</label>
+            <input type="text" name="administradora_condominio" placeholder="Nome da administradora" />
+          </div>
+          <div class="field">
+            <label>IPTU</label>
+            <input type="text" name="iptu" placeholder="Nº do IPTU" />
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTORIA -->
+      <div class="section">
+        <div class="section-title">Vistoria e Reparos</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Vistoria</label>
+            <div class="radio-group" data-name="vistoria">
+              <label class="radio-label">
+                <input type="radio" name="vistoria" value="OK" />
+                <span class="radio-dot"></span> OK
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="vistoria" value="Pendente" />
+                <span class="radio-dot"></span> Pendente
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Locatário com chaves para reparo</label>
+            <div class="radio-group" data-name="locatario_chaves_reparo">
+              <label class="radio-label">
+                <input type="radio" name="locatario_chaves_reparo" value="Sim" />
+                <span class="radio-dot"></span> Sim
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="locatario_chaves_reparo" value="Não" />
+                <span class="radio-dot"></span> Não
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Projetar vai fazer o reparo</label>
+            <div class="radio-group" data-name="projetar_reparo">
+              <label class="radio-label">
+                <input type="radio" name="projetar_reparo" value="Sim" />
+                <span class="radio-dot"></span> Sim
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="projetar_reparo" value="Não" />
+                <span class="radio-dot"></span> Não
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Valor do orçamento</label>
+            <div class="input-prefix">
+              <span>R$</span>
+              <input type="number" name="valor_orcamento" placeholder="0,00" min="0" step="0.01" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OBSERVAÇÕES -->
+      <div class="section">
+        <div class="section-title">Observações</div>
+        <div class="field">
+          <textarea name="observacoes" placeholder="Informações adicionais, pendências, notas relevantes..." style="min-height:90px;"></textarea>
+        </div>
+      </div>
+
+      <!-- AÇÕES -->
+      <div class="actions">
+        <button type="button" class="btn-secondary" onclick="limparForm()">Limpar</button>
+        <button type="button" class="btn-primary" onclick="window.print()">🖨 Imprimir</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="footer">
+    Projetar Imóveis · CRECI 2709J · Av. Cel. João Fernandes, 546 – Urussanguinha – Araranguá/SC
+  </div>
+</div>
+
+<script>
+  // Radio pill selection visual
+  document.querySelectorAll('.radio-group').forEach(group => {
+    group.querySelectorAll('.radio-label').forEach(label => {
+      label.addEventListener('click', () => {
+        const groupName = group.dataset.name;
+        document.querySelectorAll(`[data-name="${groupName}"] .radio-label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        label.querySelector('input').checked = true;
+      });
+    });
+  });
+
+  // A ficha não é enviada para nenhum lugar (só preencher e imprimir).
+  // Impede que apertar Enter recarregue a página e apague o que foi preenchido.
+  document.getElementById('fichaForm').addEventListener('submit', e => e.preventDefault());
+
+  function limparForm() {
+    if (!confirm('Deseja limpar todos os campos?')) return;
+    document.getElementById('fichaForm').reset();
+    document.querySelectorAll('.radio-label').forEach(l => l.classList.remove('selected'));
+  }
+</script>
+</body>
+</html>
