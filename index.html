@@ -3,97 +3,127 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Documentos de Locação</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+<title>Documentos de Locação – Projetar Imóveis</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23A0496A'/><text x='50' y='72' font-family='Arial' font-weight='700' font-size='64' fill='white' text-anchor='middle'>P</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500&display=swap">
 <style>
+  /* Identidade Projetar: vinho #A0496A, dourado #c9a96e, Montserrat + Lora itálico */
   :root {
-    --fundo: #f6f4f1;
-    --card: #ffffff;
-    --borda: #e6e1da;
-    --texto: #2a2522;
-    --suave: #7a716a;
-    --destaque: #7a1f2b;
-    --destaque-claro: #f3e7e8;
-    --sombra: 0 1px 2px rgba(0,0,0,.05), 0 4px 14px rgba(0,0,0,.04);
+    --vinho: #A0496A;
+    --vinho-dark: #7a3250;
+    --vinho-light: #c4768f;
+    --vinho-pale: #f9eef2;
+    --gold: #c9a96e;
+    --text: #1e1e1e;
+    --text-muted: #6b6b6b;
+    --border: #ddd0d5;
+    --bg: #faf8f8;
+    --white: #ffffff;
+    --radius: 10px;
+    --shadow: 0 2px 16px rgba(160,73,106,0.10);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --fundo: #17191c;
-      --card: #202328;
-      --borda: #30343a;
-      --texto: #ecebe8;
-      --suave: #9a9892;
-      --destaque: #e0808c;
-      --destaque-claro: #3a2428;
-      --sombra: none;
-    }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 40px 16px 60px; }
+  .wrapper { max-width: 880px; margin: 0 auto; }
+
+  .header { background: var(--vinho); border-radius: var(--radius) var(--radius) 0 0; padding: 32px 36px 24px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; }
+  .header::after { content: ''; position: absolute; right: -30px; top: -30px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255,255,255,0.06); }
+  .logo-name { font-weight: 800; font-size: 22px; color: #fff; letter-spacing: 0.5px; line-height: 1; }
+  .logo-name span { color: var(--gold); }
+  .logo-sub { font-family: 'Lora', Georgia, serif; font-style: italic; font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 4px; letter-spacing: 1px; }
+  .header-title { margin-left: auto; text-align: right; }
+  .header-title h1 { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: 1.5px; text-transform: uppercase; }
+  .header-title p { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 4px; font-family: 'Lora', Georgia, serif; font-style: italic; }
+  .accent-bar { height: 4px; background: linear-gradient(90deg, var(--gold), var(--vinho-light)); }
+
+  .card { background: var(--white); border-radius: 0 0 var(--radius) var(--radius); box-shadow: var(--shadow); padding: 32px 36px 40px; }
+  .busca { width: 100%; padding: 13px 16px; font: inherit; font-size: 15px; color: var(--text); background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; outline: none; transition: border-color .15s, box-shadow .15s; }
+  .busca::placeholder { color: #a99ca1; }
+  .busca:focus { border-color: var(--vinho); box-shadow: 0 0 0 3px var(--vinho-pale); }
+  .dica { font-family: 'Lora', Georgia, serif; font-style: italic; color: var(--text-muted); font-size: 12px; margin: 8px 0 28px; }
+  kbd { font-family: 'Montserrat', sans-serif; font-style: normal; font-size: 11px; padding: 1px 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); }
+
+  section { margin-bottom: 28px; }
+  section:last-child { margin-bottom: 0; }
+  .section-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--vinho); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap: 12px; }
+
+  a.doc { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--white); color: inherit; text-decoration: none; transition: border-color .15s, background .15s, transform .15s; }
+  a.doc:hover, a.doc:focus-visible { border-color: var(--vinho); transform: translateY(-1px); outline: none; }
+  a.doc.primeiro { border-color: var(--vinho); background: var(--vinho-pale); }
+  .icone { width: 40px; height: 40px; flex: none; border-radius: 8px; background: var(--vinho-pale); color: var(--vinho); display: flex; align-items: center; justify-content: center; }
+  a.doc.primeiro .icone { background: var(--white); }
+  .icone svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .textos { flex: 1; min-width: 0; }
+  .nome { font-weight: 600; font-size: 14px; }
+  .desc { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
+  .seta { color: var(--vinho-light); font-size: 18px; transition: transform .15s; }
+  a.doc:hover .seta { transform: translateX(3px); color: var(--vinho); }
+  .vazio { color: var(--text-muted); font-family: 'Lora', Georgia, serif; font-style: italic; padding: 12px 0; }
+
+  .footer { text-align: center; margin-top: 24px; font-size: 11px; color: var(--text-muted); font-family: 'Lora', Georgia, serif; font-style: italic; }
+
+  @media (max-width: 560px) {
+    body { padding: 20px 12px 40px; }
+    .header { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .header-title { margin-left: 0; text-align: left; }
+    .card { padding: 24px 18px 32px; }
   }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--fundo);
-    color: var(--texto);
-    font: 15px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-  main { max-width: 1080px; margin: 0 auto; padding: 40px 20px 60px; }
-  header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  h1 { margin: 0; font-size: 26px; letter-spacing: -.01em; }
-  .empresa { color: var(--suave); font-size: 14px; }
-  .busca {
-    width: 100%; margin: 20px 0 8px; padding: 14px 16px;
-    font-size: 17px; color: var(--texto); background: var(--card);
-    border: 1px solid var(--borda); border-radius: 12px; outline: none;
-    box-shadow: var(--sombra);
-  }
-  .busca:focus { border-color: var(--destaque); }
-  .dica { color: var(--suave); font-size: 13px; margin: 0 0 28px; }
-  kbd { font: inherit; padding: 1px 6px; border: 1px solid var(--borda); border-radius: 5px; background: var(--card); }
-  section { margin-bottom: 30px; }
-  h2 {
-    margin: 0 0 12px; font-size: 13px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: .06em; color: var(--suave);
-  }
-  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
-  a.card {
-    display: flex; gap: 12px; align-items: flex-start;
-    padding: 14px; border-radius: 12px; text-decoration: none; color: inherit;
-    background: var(--card); border: 1px solid var(--borda); box-shadow: var(--sombra);
-    transition: border-color .12s, transform .12s;
-  }
-  a.card:hover, a.card:focus-visible { border-color: var(--destaque); transform: translateY(-1px); outline: none; }
-  a.card.primeiro { border-color: var(--destaque); background: var(--destaque-claro); }
-  .icone { font-size: 24px; line-height: 1; flex: none; }
-  .nome { font-weight: 600; }
-  .desc { color: var(--suave); font-size: 13px; margin-top: 2px; }
-  .vazio { color: var(--suave); padding: 20px 0; }
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>📄 Documentos de Locação</h1>
-    <span class="empresa">Projetar Imóveis</span>
-  </header>
-  <input class="busca" id="busca" type="search" placeholder="Buscar documento… (ex.: aditivo, chaves, rescisão)" autofocus autocomplete="off">
-  <p class="dica">Digite e aperte <kbd>Enter</kbd> para abrir o primeiro resultado. <kbd>⌘</kbd> + clique abre em nova aba.</p>
-  <div id="lista"></div>
-</main>
+<div class="wrapper">
+  <div class="header">
+    <div>
+      <div class="logo-name">PROJETAR <span>IMÓVEIS</span></div>
+      <div class="logo-sub">CRECI 2709J</div>
+    </div>
+    <div class="header-title">
+      <h1>Documentos de Locação</h1>
+      <p>Uso exclusivo da equipe</p>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+
+  <div class="card">
+    <input class="busca" id="busca" type="search" placeholder="Buscar documento…" autofocus autocomplete="off">
+    <p class="dica">Digite e aperte <kbd>Enter</kbd> para abrir o primeiro resultado.</p>
+    <div id="lista"></div>
+  </div>
+
+  <div class="footer">Projetar Imóveis · CRECI 2709J · Av. Cel. João Fernandes, 546 – Urussanguinha – Araranguá/SC</div>
+</div>
 
 <script>
-  // Os mesmos documentos do grupo "Projetar — Documentos de locação" do index.html.
-  // Ao adicionar ou trocar um documento, atualize as duas páginas.
+  // Ícones de linha (traço na cor vinho)
+  const icones = {
+    ficha: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>',
+    saida: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/>',
+    chave: '<circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2M16 7l3 3M19 4l2 2"/>',
+    alerta: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/>',
+    valor: '<path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/>',
+    pessoa: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+    pessoas: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+    escudo: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  };
+
+  // Para adicionar um documento: copie uma linha e troque nome, descrição, ícone e link.
+  // Os mesmos documentos estão no portal (Portal - CC/index.html); atualize os dois.
   const grupos = [
     { titulo: "Contrato", itens: [
-      { nome: "Ficha de Contrato", desc: "Novo contrato de locação", icone: "📝", url: "https://marcomartinssm.github.io/fichacontrato/" },
-      { nome: "Encerramento de Contrato", desc: "Rescisão", icone: "🔚", url: "https://marcomartinssm.github.io/formularioencerramento/" },
-      { nome: "Entrega das Chaves", desc: "Recibo", icone: "🔑", url: "https://marcomartinssm.github.io/entregadechaves/" },
-      { nome: "Notificação Extrajudicial", desc: "Notificação ao inquilino", icone: "⚖️", url: "https://marcomartinssm.github.io/notificacaoextra/" },
+      { nome: "Ficha de Contrato", desc: "Novo contrato de locação", icone: "ficha", url: "https://marcomartinssm.github.io/fichacontrato/" },
+      { nome: "Encerramento de Contrato", desc: "Rescisão", icone: "saida", url: "https://marcomartinssm.github.io/formularioencerramento/" },
+      { nome: "Entrega das Chaves", desc: "Recibo", icone: "chave", url: "https://marcomartinssm.github.io/entregadechaves/" },
+      { nome: "Notificação Extrajudicial", desc: "Notificação ao inquilino", icone: "alerta", url: "https://marcomartinssm.github.io/notificacaoextra/" },
     ]},
     { titulo: "Aditivos", itens: [
-      { nome: "Aditivo — Reajuste de Valor", desc: "Troca de valor do aluguel", icone: "💲", url: "https://marcomartinssm.github.io/aditivotrocavalor/" },
-      { nome: "Aditivo — Troca de Locador", desc: "Novo proprietário", icone: "👤", url: "https://marcomartinssm.github.io/aditivotrocalocador/" },
-      { nome: "Aditivo — Troca de Locatários", desc: "Novo inquilino", icone: "👥", url: "https://marcomartinssm.github.io/aditivotrocalocat-rio/" },
-      { nome: "Aditivo — Credpago para Caução", desc: "Troca de garantia", icone: "🛡️", url: "https://marcomartinssm.github.io/aditivoloft--caucao/" },
+      { nome: "Aditivo — Reajuste de Valor", desc: "Troca de valor do aluguel", icone: "valor", url: "https://marcomartinssm.github.io/aditivotrocavalor/" },
+      { nome: "Aditivo — Troca de Locador", desc: "Novo proprietário", icone: "pessoa", url: "https://marcomartinssm.github.io/aditivotrocalocador/" },
+      { nome: "Aditivo — Troca de Locatários", desc: "Novo inquilino", icone: "pessoas", url: "https://marcomartinssm.github.io/aditivotrocalocat-rio/" },
+      { nome: "Aditivo — Credpago para Caução", desc: "Troca de garantia", icone: "escudo", url: "https://marcomartinssm.github.io/aditivoloft--caucao/" },
     ]},
   ];
 
@@ -112,14 +142,16 @@
       if (!itens.length) continue;
 
       const secao = document.createElement("section");
-      secao.innerHTML = `<h2>${grupo.titulo}</h2><div class="grade"></div>`;
+      secao.innerHTML = `<div class="section-title">${grupo.titulo}</div><div class="grade"></div>`;
       const grade = secao.querySelector(".grade");
 
       for (const i of itens) {
         const a = document.createElement("a");
-        a.className = "card";
+        a.className = "doc";
         a.href = i.url;
-        a.innerHTML = `<span class="icone">${i.icone}</span><span><div class="nome">${i.nome}</div><div class="desc">${i.desc}</div></span>`;
+        a.innerHTML = `<span class="icone"><svg viewBox="0 0 24 24" aria-hidden="true">${icones[i.icone]}</svg></span>`
+          + `<span class="textos"><div class="nome">${i.nome}</div><div class="desc">${i.desc}</div></span>`
+          + `<span class="seta" aria-hidden="true">›</span>`;
         if (termo && !primeiro) { primeiro = a; a.classList.add("primeiro"); }
         grade.appendChild(a);
       }
@@ -132,7 +164,7 @@
   busca.addEventListener("input", desenhar);
   busca.addEventListener("keydown", e => {
     if (e.key !== "Enter") return;
-    const alvo = desenhar() || lista.querySelector("a.card");
+    const alvo = desenhar() || lista.querySelector("a.doc");
     if (alvo) window.location.href = alvo.href;
   });
 
