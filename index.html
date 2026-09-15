@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentos de Locação</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+<style>
+  :root {
+    --fundo: #f6f4f1;
+    --card: #ffffff;
+    --borda: #e6e1da;
+    --texto: #2a2522;
+    --suave: #7a716a;
+    --destaque: #7a1f2b;
+    --destaque-claro: #f3e7e8;
+    --sombra: 0 1px 2px rgba(0,0,0,.05), 0 4px 14px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #17191c;
+      --card: #202328;
+      --borda: #30343a;
+      --texto: #ecebe8;
+      --suave: #9a9892;
+      --destaque: #e0808c;
+      --destaque-claro: #3a2428;
+      --sombra: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font: 15px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 1080px; margin: 0 auto; padding: 40px 20px 60px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: -.01em; }
+  .empresa { color: var(--suave); font-size: 14px; }
+  .busca {
+    width: 100%; margin: 20px 0 8px; padding: 14px 16px;
+    font-size: 17px; color: var(--texto); background: var(--card);
+    border: 1px solid var(--borda); border-radius: 12px; outline: none;
+    box-shadow: var(--sombra);
+  }
+  .busca:focus { border-color: var(--destaque); }
+  .dica { color: var(--suave); font-size: 13px; margin: 0 0 28px; }
+  kbd { font: inherit; padding: 1px 6px; border: 1px solid var(--borda); border-radius: 5px; background: var(--card); }
+  section { margin-bottom: 30px; }
+  h2 {
+    margin: 0 0 12px; font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .06em; color: var(--suave);
+  }
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+  a.card {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 14px; border-radius: 12px; text-decoration: none; color: inherit;
+    background: var(--card); border: 1px solid var(--borda); box-shadow: var(--sombra);
+    transition: border-color .12s, transform .12s;
+  }
+  a.card:hover, a.card:focus-visible { border-color: var(--destaque); transform: translateY(-1px); outline: none; }
+  a.card.primeiro { border-color: var(--destaque); background: var(--destaque-claro); }
+  .icone { font-size: 24px; line-height: 1; flex: none; }
+  .nome { font-weight: 600; }
+  .desc { color: var(--suave); font-size: 13px; margin-top: 2px; }
+  .vazio { color: var(--suave); padding: 20px 0; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>📄 Documentos de Locação</h1>
+    <span class="empresa">Projetar Imóveis</span>
+  </header>
+  <input class="busca" id="busca" type="search" placeholder="Buscar documento… (ex.: aditivo, chaves, rescisão)" autofocus autocomplete="off">
+  <p class="dica">Digite e aperte <kbd>Enter</kbd> para abrir o primeiro resultado. <kbd>⌘</kbd> + clique abre em nova aba.</p>
+  <div id="lista"></div>
+</main>
+
+<script>
+  // Os mesmos documentos do grupo "Projetar — Documentos de locação" do index.html.
+  // Ao adicionar ou trocar um documento, atualize as duas páginas.
+  const grupos = [
+    { titulo: "Contrato", itens: [
+      { nome: "Ficha de Contrato", desc: "Novo contrato de locação", icone: "📝", url: "https://marcomartinssm.github.io/fichacontrato/" },
+      { nome: "Encerramento de Contrato", desc: "Rescisão", icone: "🔚", url: "https://marcomartinssm.github.io/formularioencerramento/" },
+      { nome: "Entrega das Chaves", desc: "Recibo", icone: "🔑", url: "https://marcomartinssm.github.io/entregadechaves/" },
+      { nome: "Notificação Extrajudicial", desc: "Notificação ao inquilino", icone: "⚖️", url: "https://marcomartinssm.github.io/notificacaoextra/" },
+    ]},
+    { titulo: "Aditivos", itens: [
+      { nome: "Aditivo — Reajuste de Valor", desc: "Troca de valor do aluguel", icone: "💲", url: "https://marcomartinssm.github.io/aditivotrocavalor/" },
+      { nome: "Aditivo — Troca de Locador", desc: "Novo proprietário", icone: "👤", url: "https://marcomartinssm.github.io/aditivotrocalocador/" },
+      { nome: "Aditivo — Troca de Locatários", desc: "Novo inquilino", icone: "👥", url: "https://marcomartinssm.github.io/aditivotrocalocat-rio/" },
+      { nome: "Aditivo — Credpago para Caução", desc: "Troca de garantia", icone: "🛡️", url: "https://marcomartinssm.github.io/aditivoloft--caucao/" },
+    ]},
+  ];
+
+  const lista = document.getElementById("lista");
+  const busca = document.getElementById("busca");
+  const normalizar = s => s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+
+  function desenhar() {
+    const termo = normalizar(busca.value.trim());
+    lista.innerHTML = "";
+    let primeiro = null;
+
+    for (const grupo of grupos) {
+      const itens = grupo.itens.filter(i =>
+        !termo || normalizar(`${i.nome} ${i.desc} ${grupo.titulo}`).includes(termo));
+      if (!itens.length) continue;
+
+      const secao = document.createElement("section");
+      secao.innerHTML = `<h2>${grupo.titulo}</h2><div class="grade"></div>`;
+      const grade = secao.querySelector(".grade");
+
+      for (const i of itens) {
+        const a = document.createElement("a");
+        a.className = "card";
+        a.href = i.url;
+        a.innerHTML = `<span class="icone">${i.icone}</span><span><div class="nome">${i.nome}</div><div class="desc">${i.desc}</div></span>`;
+        if (termo && !primeiro) { primeiro = a; a.classList.add("primeiro"); }
+        grade.appendChild(a);
+      }
+      lista.appendChild(secao);
+    }
+    if (!lista.children.length) lista.innerHTML = `<p class="vazio">Nenhum documento encontrado.</p>`;
+    return primeiro;
+  }
+
+  busca.addEventListener("input", desenhar);
+  busca.addEventListener("keydown", e => {
+    if (e.key !== "Enter") return;
+    const alvo = desenhar() || lista.querySelector("a.card");
+    if (alvo) window.location.href = alvo.href;
+  });
+
+  desenhar();
+</script>
+</body>
+</html>
